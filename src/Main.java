@@ -9,26 +9,51 @@ public class Main {
     private JPanel panel;
     private JButton button;
 
+
     public void convert(JTextField field1, JTextField field2) {
-        if (field1.getText().equals("")) {
-            double getValue = Double.parseDouble(field2.getText());
-            getValue *= 7.06;
-            double twoDecimal = Math.floor(getValue * 100) / 100;
-            field1.setText(String.valueOf(twoDecimal));
-        } else {
-            double getValue = Double.parseDouble(field1.getText());
-            getValue *= 0.14;
-            double twoDecimal = Math.floor(getValue * 100) / 100;
-            field2.setText(String.valueOf(twoDecimal));
+        try {
+            if (field1.getText().equals("")) {
+                double getValue = Double.parseDouble(field2.getText());
+                getValue *= 7.06;
+                double twoDecimal = Math.floor(getValue * 100) / 100;
+                field1.setText(String.valueOf(twoDecimal));
+            } else {
+                double getValue = Double.parseDouble(field1.getText());
+                getValue *= 0.14;
+                double twoDecimal = Math.floor(getValue * 100) / 100;
+                field2.setText(String.valueOf(twoDecimal));
+            }
+        }catch (NumberFormatException e) {
+            error(e);
         }
     }
+
+    public void reset(JTextField field1, JTextField field2){
+        field1.setText("");
+        field2.setText("");
+    }
+
+    public void error(NumberFormatException e){
+        JFrame frame2 = new JFrame("Oopps you messed up!");
+        frame2.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame2.setSize(200, 100);
+        frame2.setLocationRelativeTo(null);
+        JLabel label3 = new JLabel("ERROR 404! Do something else");
+        JPanel panel3 = new JPanel();
+        frame2.add(panel3);
+        panel3.add(label3);
+        frame2.setVisible(true);
+        System.out.println(e);
+    }
+
+
 
     public void HelloActionListener() {
         frame = new JFrame("CurrencyConverter");
         JLabel label = new JLabel("DKK");
         JLabel label2 = new JLabel("USD");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 250);
+        frame.setSize(450, 200);
         frame.setLocationRelativeTo(null);
         frame.add(panel = new JPanel());
 
@@ -42,14 +67,12 @@ public class Main {
 
         panel.add(button = new JButton("Convert"));
         frame.setVisible(true);
-        button.addActionListener(e -> {
-            convert(text, text2);
-              /*  double getValue = Double.parseDouble(text.getText());
-                getValue *= 0.16;
-                text2.setText(String.valueOf(getValue));*/
-        });
+            button.addActionListener(e -> convert(text, text2));
 
-    }
+            JButton button2 = (JButton) panel.add(new JButton("Reset"));
+            button2.addActionListener(e -> reset(text,text2));
+
+        }
 
     public static void main(String[] args) {
         new Main().HelloActionListener();
