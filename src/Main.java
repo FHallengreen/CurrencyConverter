@@ -47,6 +47,7 @@ public class Main {
     JButton button2 = new JButton("OK");
     panel3.add(button2);
     frame2.setVisible(true);
+    frame2.setAlwaysOnTop(true);
     button2.addActionListener(f -> frame2.setVisible(false));
   }
 
